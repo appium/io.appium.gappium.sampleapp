@@ -1,0 +1,17 @@
+.irb-history
+*.swp
+.DS_Store
+npm*.log
+node_modules
+*.trace
+xcuserdata
+*.sublime-*
+*.iml
+*.autosave
+.idea/
+.*~
+*~
+org.eclipse.ltk.core.refactoring.prefs
+/selendroid
+.appiumconfig
+.idea
