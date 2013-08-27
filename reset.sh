@@ -27,3 +27,4 @@ echo "Adding platforms iOS and Android"
 run_cmd cordova platforms add ios android || { run_cmd cordova platforms rm ios android; run_cmd cordova platforms add ios android; }
 echo "Building apps for iOS and Android"
 run_cmd cordova build
+echo "Run 'cordova emulate ios' or 'cordova emulate android' to launch apps"
