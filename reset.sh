@@ -25,6 +25,8 @@ run_cmd git submodule update --init
 cordova >/dev/null 2>&1 || { echo >&2 "Error: Please install cordova CLI first (npm install -g cordova)"; exit 1; }
 echo "Adding platforms iOS and Android"
 run_cmd cordova platforms add ios android || { run_cmd cordova platforms rm ios android; run_cmd cordova platforms add ios android; }
+echo "Adding cordova plugins"
+run_cmd cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-contacts.git
 echo "Building apps for iOS and Android"
 run_cmd cordova build
 echo "Run 'cordova emulate ios' or 'cordova emulate android' to launch apps"
