@@ -1,3 +1,5 @@
+platforms/
+plugins/
 .irb-history
 *.swp
 .DS_Store
