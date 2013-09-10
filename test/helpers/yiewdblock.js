@@ -110,7 +110,13 @@ var activateWebView = function(h) {
   return function(done) {
     h.driver.run(function*() {
       try {
-        var handles = yield this.windowHandles();
+        var handles = null;
+        try {
+          handles = yield this.windowHandles();
+        } catch (e) {
+          yield this.sleep(2);
+          handles = yield this.windowHandles();
+        }
         for (var handle in handles) {
           var hdl = handles[handle];
           if (hdl.indexOf('WEBVIEW') > -1) {
