@@ -134,7 +134,6 @@ var yiewdIt = function(desc, gnrtr) {
             try {
                 yield o_O(gnrtr)();
             } catch (e) {
-                debugger;
                 return done(e);
             }
             return done();
