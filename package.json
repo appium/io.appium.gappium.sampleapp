@@ -1,0 +1,42 @@
+{
+  "name": "io.appium.gappium.sampleapp",
+  "version": "0.0.1",
+  "description": "Sample Corodva application (Android + iOS) to illustrate test automation",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "should": "~1.2.2",
+    "underscore": "~1.4.3",
+    "saucelabs": "~0.0.7",
+    "wd": "~0.1.2",
+    "monocle-js": "~0.1.4",
+    "yiewd": "0.0.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/appium/io.appium.gappium.sampleapp.git"
+  },
+  "keywords": [
+    "Cordova",
+    "Gappium",
+    "Appium",
+    "Test",
+    "Automation",
+    "Apps",
+    "Android",
+    "iOS"
+  ],
+  "author": "Appium Contributors",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "9c192d2a96dedd95c2d7e0bc58627181fc300b5b",
+  "bugs": {
+    "url": "https://github.com/appium/io.appium.gappium.sampleapp/issues"
+  }
+}
