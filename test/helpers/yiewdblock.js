@@ -110,22 +110,52 @@ var activateWebView = function(h) {
   return function(done) {
     h.driver.run(function*() {
       try {
-        var handles = yield h.driver.windowHandles();
+        var handles = yield this.windowHandles();
         for (var handle in handles) {
           var hdl = handles[handle];
           if (hdl.indexOf('WEBVIEW') > -1) {
-            yield h.driver.window(hdl);
+            yield this.window(hdl);
             return done();
           }
         }
 
-        yield h.driver.window(handles[0]);
+        yield this.window(handles[0]);
       } catch (e) {
         return done(e);
       };
       return done();
     });
   };
+};
+
+var nativeSequence = function(h, seq) {
+    var deactivateWebView = o_O(function*() {
+        var handles = yield h.driver.windowHandles();
+        var hdl = handles[handle];
+        for (var handle in handles) {
+          var hdl = handles[handle];
+          if (hdl.indexOf('NATIVE') > -1) {
+            yield h.driver.window(hdl);
+            return;
+          }
+        }
+
+        yield h.driver.execute("mobile: leaveWebView");
+    });
+
+    h.driver.run(function*() {
+        try {
+            yield deactivateWebView();
+
+            yield o_O(seq)();
+
+            var cb = o_C();
+            activateWebView(h)(cb);
+            yield cb;
+        } catch(e) {
+            throw e;
+        }
+    });
 };
 
 var yiewdIt = function(desc, gnrtr) {
@@ -144,3 +174,4 @@ var yiewdIt = function(desc, gnrtr) {
 module.exports.describeForGappium = describeForGappium;
 module.exports.activateWebView = activateWebView;
 module.exports.yiewdIt = yiewdIt;
+module.exports.nativeSequence = nativeSequence;
