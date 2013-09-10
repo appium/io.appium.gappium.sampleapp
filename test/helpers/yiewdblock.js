@@ -109,20 +109,39 @@ var activateWebView = function(h) {
   // unify (ios vs selendroid) web view selection
   return function(done) {
     h.driver.run(function*() {
-      var handles = yield h.driver.windowHandles();
-      for (var handle in handles) {
-        var hdl = handles[handle];
-        if (hdl.indexOf('WEBVIEW') > -1) {
-          yield h.driver.window(hdl);
-          return done();
+      try {
+        var handles = yield h.driver.windowHandles();
+        for (var handle in handles) {
+          var hdl = handles[handle];
+          if (hdl.indexOf('WEBVIEW') > -1) {
+            yield h.driver.window(hdl);
+            return done();
+          }
         }
-      }
 
-      yield h.driver.window(handles[0]);
+        yield h.driver.window(handles[0]);
+      } catch (e) {
+        return done(e);
+      };
       return done();
     });
   };
 };
 
+var yiewdIt = function(desc, gnrtr) {
+    it(desc, function(done) {
+        var res = monocle.run(function*() {
+            try {
+                yield o_O(gnrtr)();
+            } catch (e) {
+                debugger;
+                return done(e);
+            }
+            return done();
+        });
+    });
+};
+
 module.exports.describeForGappium = describeForGappium;
 module.exports.activateWebView = activateWebView;
+module.exports.yiewdIt = yiewdIt;

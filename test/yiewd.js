@@ -1,43 +1,38 @@
 /*global beforeEach:true, afterEach:true, describe:true */
 
 var yiewdBlock = require("./helpers/yiewdblock")
+  , yit = yiewdBlock.yiewdIt
   , should = require("should")
   , path = require("path")
   , appPkg = "io.appium.gappium.sampleapp"
   , appAct = "HelloGappium"
-  , delay = 1;
+  , delay = 3;
 
-var desc = yiewdBlock.describeForGappium(appPkg, appAct);
+var describeGappium = yiewdBlock.describeForGappium(appPkg, appAct);
 
-desc("HelloGappium", function(h) {
+describeGappium("HelloGappium", function(h) {
     beforeEach(yiewdBlock.activateWebView(h));
 
-    it("should open the app", function(done) {
-        h.driver.run(function*() {
-            try {
-                var el = yield this.elementByCssSelector('.search-key');
-                should.exist(el);
-                yield this.sleep(delay);
+    yit("should open the app", function*() {
+        yield h.driver.sleep(delay);
 
-                yield el.sendKeys('j');
-                yield this.sleep(delay);
+        var el = yield h.driver.elementByCssSelector('.search-key');
+        should.exist(el);
+        yield h.driver.sleep(delay);
 
-                var employees = yield this.elementsByCssSelector('.topcoat-list a');
-                employees.length.should.equal(5);
+        yield el.sendKeys('j');
+        yield h.driver.sleep(delay);
 
-                yield employees[3].click();
-                yield this.sleep(delay);
+        var employees = yield h.driver.elementsByCssSelector('.topcoat-list a');
+        employees.length.should.equal(5);
 
-                var options = yield this.elementsByCssSelector('.actions a');
-                options.length.should.equal(6);
+        yield employees[3].click();
+        yield h.driver.sleep(delay);
 
-                yield options[3].click();
-                yield this.sleep(delay);
-            } catch (e) {
-                return done(e);
-            }
+        var options = yield h.driver.elementsByCssSelector('.actions a');
+        options.length.should.equal(6);
 
-            return done();
-        });
+        yield options[3].click();
+        yield h.driver.sleep(delay);
     });
 });
