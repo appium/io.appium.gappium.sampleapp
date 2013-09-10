@@ -128,7 +128,7 @@ var activateWebView = function(h) {
   };
 };
 
-var nativeSequence = function(h, seq) {
+var nativeSequence = o_O(function*(h, seq) {
     var deactivateWebView = o_O(function*() {
         var handles = yield h.driver.windowHandles();
         var hdl = handles[handle];
@@ -143,20 +143,18 @@ var nativeSequence = function(h, seq) {
         yield h.driver.execute("mobile: leaveWebView");
     });
 
-    h.driver.run(function*() {
-        try {
-            yield deactivateWebView();
+    try {
+        yield deactivateWebView();
 
-            yield o_O(seq)();
+        yield o_O(seq)();
 
-            var cb = o_C();
-            activateWebView(h)(cb);
-            yield cb;
-        } catch(e) {
-            throw e;
-        }
-    });
-};
+        var cb = o_C();
+        activateWebView(h)(cb);
+        yield cb;
+    } catch(e) {
+        throw e;
+    }
+});
 
 var yiewdIt = function(desc, gnrtr) {
     it(desc, function(done) {
