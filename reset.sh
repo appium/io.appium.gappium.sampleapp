@@ -27,9 +27,9 @@ echo "Adding platforms iOS and Android"
 run_cmd cordova platforms add ios android || { run_cmd cordova platforms rm ios android; run_cmd cordova platforms add ios android; }
 echo "Adding cordova plugins"
 run_cmd cordova plugin rm org.apache.cordova.core.contacts
-run_cmd cordova plugin rm org.apache.cordova.core.device-motion
+run_cmd cordova plugin rm org.apache.cordova.core.dialogs
 run_cmd cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-contacts.git
-run_cmd cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-device-motion.git
+run_cmd cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git
 echo "Building apps for iOS and Android"
 run_cmd cordova build
 echo "Run 'cordova emulate ios' or 'cordova emulate android' to launch apps"
