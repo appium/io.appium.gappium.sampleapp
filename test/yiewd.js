@@ -82,29 +82,27 @@ describeGappium("HomeView", function(h) {
 describeGappium("EmployeeView", function(h) {
     beforeEach(yiewdBlock.activateWebView(h));
 
-    var dismiss = o_O(function*() {
+    var dismiss = o_O(function*(driver) {
         try {
-            yield h.driver.acceptAlert();
+            yield driver.acceptAlert();
         } catch (e) {
-            var button = yield h.driver.elementById('button1');
+            var button = yield driver.elementById('button1');
             yield button.click();
         }
     });
 
-    var getNames = function(people) {
-        return o_O(function*() {
-            var names = [];
-            for (var report in people) {
-                if (typeof report !== "string") {
-                    continue;
-                }
-                var name = yield people[report].text();
-                names.push(name.split("\n")[0]);
-            };
+    var getNames = o_O(function*(people) {
+        var names = [];
+        for (var report in people) {
+            if (typeof report !== "string") {
+                continue;
+            }
+            var name = yield people[report].text();
+            names.push(name.split("\n")[0]);
+        };
 
-            return names;
-        });
-    };
+        return names;
+    });
 
     yit("should select James King and check his direct reports", function*() {
         yield h.driver.sleep(delay);
@@ -131,7 +129,7 @@ describeGappium("EmployeeView", function(h) {
         reports.length.should.equal(4);
         yield h.driver.sleep(delay);
 
-        var names = yield getNames(reports)();
+        var names = yield getNames(reports);
         var isect = _.intersection(names,
            ['Julie Taylor',
             'Eugene Lee',
@@ -164,7 +162,7 @@ describeGappium("EmployeeView", function(h) {
         yield h.driver.sleep(delay);
 
         yield nativeSeq(h, function*() {
-            yield dismiss();
+            yield dismiss(h.driver);
         });
 
         yield h.driver.sleep(delay);
