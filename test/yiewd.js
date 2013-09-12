@@ -7,6 +7,7 @@ var yiewdBlock = require("./helpers/yiewdblock")
   , path = require("path")
   , monocle = require("monocle-js")
   , o_O = monocle.o_O
+  , _ = require("underscore")
   , appPkg = "io.appium.gappium.sampleapp"
   , appAct = "HelloGappium"
   , delay = 0.5;
@@ -88,6 +89,56 @@ describeGappium("EmployeeView", function(h) {
             var button = yield h.driver.elementById('button1');
             yield button.click();
         }
+    });
+
+    var getNames = function(people) {
+        return o_O(function*() {
+            var names = [];
+            for (var report in people) {
+                if (typeof report !== "string") {
+                    continue;
+                }
+                var name = yield people[report].text();
+                names.push(name.split("\n")[0]);
+            };
+
+            return names;
+        });
+    };
+
+    yit("should select James King and check his direct reports", function*() {
+        yield h.driver.sleep(delay);
+
+        var el = yield h.driver.elementByCssSelector('.search-key');
+        should.exist(el);
+        yield h.driver.sleep(delay);
+
+        yield el.sendKeys("James King");
+        yield h.driver.sleep(delay);
+
+        var employees = yield h.driver.elementsByCssSelector('.topcoat-list a');
+        employees.length.should.equal(1);
+        yield h.driver.sleep(delay);
+
+        yield employees[0].click();
+        yield h.driver.sleep(delay);
+
+        var option = yield h.driver.elementByPartialLinkText("View Direct Reports");
+        yield option.click();
+        yield h.driver.sleep(delay);
+
+        var reports = yield h.driver.elementsByCssSelector('.topcoat-list a');
+        reports.length.should.equal(4);
+        yield h.driver.sleep(delay);
+
+        var names = yield getNames(reports)();
+        var isect = _.intersection(names,
+           ['Julie Taylor',
+            'Eugene Lee',
+            'John Williams',
+            'Ray Moore']);
+        isect.should.have.length(4);
+        yield h.driver.sleep(delay);
     });
 
     yit("should open location map and dismiss modal dialog", function*() {
