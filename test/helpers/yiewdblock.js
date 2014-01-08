@@ -77,8 +77,10 @@ var describeForGappium = function(appPkg, appAct, appWaitAct) {
     }
 
     if (device === "ios") {
-        realDevice = "iPhone Simulator";
+        device = realDevice = "iPhone Simulator";
         browserName = "iOS";
+        platform = 'Mac'
+        version = '6.0'
     } else if (device === "android") {
         browserName = realDevice = "Android";
     } else if (device === "selendroid") {
@@ -111,6 +113,7 @@ var describeForGappium = function(appPkg, appAct, appWaitAct) {
             }
         }
         extraCaps = _.extend(extraCaps, newExtraCaps);
+        console.log(extraCaps);
         return describeWithDriver(desc, tests, host, port, caps, extraCaps);
     };
 };
