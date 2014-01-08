@@ -33,6 +33,8 @@ var driverBlock = function(tests, host, port, caps, extraCaps) {
   var expectConnError = extraCaps && extraCaps.expectConnError;
 
   beforeEach(function(done) {
+    console.log(host);
+    console.log(port);
     driverHolder.driver = wd.remote(host, port);
     driverHolder.driver.init(caps, function(err, sessionId) {
       if (expectConnError && err) {
