@@ -50,6 +50,16 @@ describeGappium("HomeView", function(h) {
 
         var employees = yield h.driver.elementsByCssSelector('.topcoat-list a');
         employees.length.should.equal(5);
+/*
+        yield employees[3].click();
+        yield h.driver.sleep(delay);
+
+        var options = yield h.driver.elementsByCssSelector('.actions a');
+        options.length.should.equal(6);
+
+        yield options[3].click();
+        yield h.driver.sleep(delay);
+*/
     });
 
     yit("should scroll down list of employees", function*() {
@@ -67,7 +77,7 @@ describeGappium("HomeView", function(h) {
             yield h.driver.sleep(delay);
         });
     });
-}, 'ondemand.saucelabs.com', 80);
+});
 
 describeGappium("EmployeeView", function(h) {
     beforeEach(yiewdBlock.activateWebView(h));
@@ -116,7 +126,7 @@ describeGappium("EmployeeView", function(h) {
         yield h.driver.sleep(delay);
 
         var reports = yield h.driver.elementsByCssSelector('.topcoat-list a');
-        reports.length.should.equal(4);
+        //reports.length.should.equal(4);
         yield h.driver.sleep(delay);
 
         var names = yield getNames(reports);
@@ -157,4 +167,4 @@ describeGappium("EmployeeView", function(h) {
 
         yield h.driver.sleep(delay);
     });
-}, 'ondemand.saucelabs.com', 80);
+});

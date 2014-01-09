@@ -27,7 +27,7 @@ var yiewdBlock = function(tests, host, port, caps, extraCaps) {
   var expectConnError = extraCaps && extraCaps.expectConnError;
 
   beforeEach(function(done) {
-    driverHolder.driver = wd.remote(host, port, 'sourishkrout', '5ebab0ed-5e36-4a76-b715-d516b3355240  ');
+    driverHolder.driver = wd.remote(host, port);
     driverHolder.driver.run(function*() {
       yield driverHolder.driver.init(caps);
       driverHolder.driver.sessionId = driverHolder.driver.sessionID;
@@ -61,33 +61,25 @@ var describeWithDriver = function(desc, tests, host, port, caps, extraCaps, time
 };
 
 var describeForGappium = function(appPkg, appAct, appWaitAct) {
-    var version, platform, testName, webviewSupport, browserName, appPath, device, realDevice, appPath = null;
+    var browserName, appPath, device, realDevice, appPath = null;
 
     // export env APPIUM_CORDOVA="android" to run tests against android version
     if (typeof process.env.APPIUM_CORDOVA !== "typeof" && process.env.APPIUM_CORDOVA === "android") {
         device = "selendroid";
         appPath = path.resolve(__dirname, "../../platforms/android/bin/" + appAct + "-debug.apk");
-        appPath = "sauce-storage:HelloGappium-debug.apk.zip";
-        testName = "Gappium Android";
+        
     } else {
         device = "ios";
         appPath = path.resolve(__dirname, "../../platforms/ios/build/" + appAct + ".app");
-        appPath = "sauce-storage:HelloGappium.zip";
-        testName = "Gappium iOS";
     }
 
     if (device === "ios") {
-        device = realDevice = "iPhone Simulator";
+        realDevice = "iPhone Simulator";
         browserName = "iOS";
-        platform = 'Mac'
-        version = '6.0'
     } else if (device === "android") {
         browserName = realDevice = "Android";
     } else if (device === "selendroid") {
-        browserName = realDevice = "Android";
-        webviewSupport = "true";
-        platform = "SquirrelOS";
-        version = "4.2";
+        browserName = realDevice = "Selendroid";
     } else if (device === "firefox" || device === "firefoxos") {
         browserName = realDevice = "Firefox";
     }
@@ -97,23 +89,18 @@ var describeForGappium = function(appPkg, appAct, appWaitAct) {
             extraCaps = {};
         }
         var newExtraCaps = {
-            name: testName,
             app: appPath,
             browserName: browserName,
-            device: realDevice,
-            webviewSupport: webviewSupport,
-            platform: platform,
-            version: version
+            device: realDevice
         };
         if (typeof appPkg !== "undefined") {
             newExtraCaps['app-package'] = appPkg;
-            newExtraCaps['app-activity'] = "." + appAct;
+            newExtraCaps['app-activity'] = appAct;
             if (typeof appWaitAct !== "undefined") {
                 newExtraCaps['app-wait-activity'] = appWaitAct;
             }
         }
         extraCaps = _.extend(extraCaps, newExtraCaps);
-        console.log(extraCaps);
         return describeWithDriver(desc, tests, host, port, caps, extraCaps);
     };
 };
@@ -127,7 +114,7 @@ var activateWebView = function(h) {
         try {
           handles = yield this.windowHandles();
         } catch (e) {
-          yield this.sleep(10);
+          yield this.sleep(2);
           handles = yield this.windowHandles();
         }
         for (var handle in handles) {
