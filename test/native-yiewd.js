@@ -53,7 +53,7 @@ var getCaps = function(tgt) {
     } else if (device === "selendroid") {
         browserName = realDevice = "Android";
         webviewSupport = true;
-        platform = "SquirrelOS";
+        platform = "linux";
         version = "4.2";
     } else if (device === "firefox" || device === "firefoxos") {
         browserName = realDevice = "Firefox";
@@ -106,7 +106,8 @@ var addTest = function(name, test) {
     return o_O(function*() {
       var caps = getCaps(target);
           caps['name'] = name;
-      var helper = { caps: caps, driver: wd.remote('ondemand.saucelabs.com', 80, 'sourishkrout', '5ebab0ed-5e36-4a76-b715-d516b3355240') };
+      //console.log("Running " + name);
+      var helper = { caps: caps, driver: wd.remote('ondemand.saucelabs.com', 80, process.env.SAUCE_USERNAME, process.env.SAUCE_ACCESS_KEY) };
 
       var newFnc = o_O(function*() {
         yield helper.driver.init(helper.caps);
@@ -265,5 +266,6 @@ addTest("EmployeeView should open location map and dismiss modal dialog", functi
 });
 
 (function(){
+  console.log("Running " + tests.length + " tests");
   monocle.parallel(tests);
 })();
