@@ -1,1 +1,4 @@
-{"id":"io.appium.gappium.sampleapp","name":"HelloCordova"}
+{
+    "id": "io.appium.gappium.sampleapp",
+    "name": "HelloCordova"
+}
