@@ -26,8 +26,12 @@ cordova >/dev/null 2>&1 || { echo >&2 "Error: Please install cordova CLI first (
 echo "Adding platforms iOS and Android"
 run_cmd cordova platforms add ios android || { run_cmd cordova platforms rm ios android; run_cmd cordova platforms add ios android; }
 echo "Adding cordova plugins"
+set +e
 run_cmd cordova plugin rm org.apache.cordova.core.contacts
 run_cmd cordova plugin rm org.apache.cordova.core.dialogs
+run_cmd cordova plugin rm org.apache.cordova.contacts
+run_cmd cordova plugin rm org.apache.cordova.dialogs
+set -e
 run_cmd cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-contacts.git
 run_cmd cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git
 echo "Building apps for iOS and Android"
