@@ -14,7 +14,9 @@
     "monocle-js": "~0.1.4",
     "yiewd": "0.0.13"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cordova": "^4.3.0"
+  },
   "scripts": {
     "test": ""
   },
